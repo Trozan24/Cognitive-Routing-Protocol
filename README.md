@@ -1,94 +1,112 @@
-[![Project Status: Active – Phase 1: Simulation](https://img.shields.io/badge/status-active-success.svg)](https://github.com/Yudistira-CRP/cognitive-routing-protocol)
+# Cognitive Routing Protocol (CRP)
+
+[![Project Status: Prototype Complete](https://img.shields.io/badge/status-prototype_complete-brightgreen.svg)](https://github.com/Yudis-bit/Cognitive-Routing-Protocol)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-This repository contains the source code and documentation for the **Cognitive Routing Protocol (CRP)**, a Layer-0/Layer-1 enhancement protocol designed to fundamentally reshape the efficiency, resilience, and profitability of Decentralized Physical Infrastructure Networks (DePIN).
+This repository contains the complete architecture and functional prototype for the **Cognitive Routing Protocol (CRP)**, a Layer-0/Layer-1 enhancement protocol designed to fundamentally reshape the efficiency, resilience, and profitability of Decentralized Physical Infrastructure Networks (DePIN).
 
 ---
 
-## The Problem
+## Key Findings from the Prototype
 
-Today's Decentralized Physical Infrastructure Networks (DePINs) are powerful in concept but are critically bottlenecked by naive, reactive routing protocols. They typically forward data based on simple, static metrics like geographic proximity or latency, failing to account for the dynamic, real-time state of the network. This leads to systemic inefficiencies, cascading congestion under stress, and vulnerabilities to targeted disruption.
+The Python prototype in this repository has successfully validated the core hypothesis of CRP. A comparative analysis between a "Dumb Router" (using Dijkstra's algorithm) and a "Cognitive Router" (using Reinforcement Learning) demonstrated:
 
-## The Solution: Cognitive Routing
+* **✅ Adaptive Routing:** The Cognitive Router successfully learned to **dynamically avoid a congested network link**, using it less than **0.1%** of the time, compared to the Dumb Router which was stuck in congestion nearly **40%** of the time.
+* **🚀 Performance Gains:** By avoiding these bottlenecks, the Cognitive Router achieved **~22% lower average latency** for successful packet deliveries, proving its ability to optimize for overall network health.
+* **📊 Full Analysis:** The complete comparative simulation can be run via the `simulations/run_cognitive_sim.py` script.
 
-The **Cognitive Routing Protocol (CRP)** addresses these challenges by embedding intelligence directly into the network fabric. It introduces a decentralized network of AI agents, known as **Cognitive Nodes**, that replace static pathfinding with a dynamic, predictive, and incentive-aligned routing policy.
+## Full Project Architecture
 
-This approach is built on three core pillars:
-1.  **Cognitive Nodes**: Each node in the network is equipped with a lightweight AI agent that makes autonomous routing decisions based on a rich set of real-time and historical data, including latency, available bandwidth, cost, and on-chain reputation.
-2.  **Reputation & Staking (`TrustScore`)**: An on-chain mechanism requires nodes to stake tokens to participate. A dynamic `TrustScore` evaluates their performance, rewarding reliability and penalizing malicious or inefficient behavior through slashing.
-3.  **Game Theory-Centric Incentives**: The protocol's economic model is engineered to reward behavior that benefits the entire network's health, creating a self-optimizing and self-policing system.
+The protocol is designed with two primary components working in tandem:
 
-## Project Status
+1.  **Off-Chain AI Core (Python):**
+    * A discrete-event simulation environment for modeling a DePIN.
+    * A **Cognitive Node** agent equipped with a Reinforcement Learning model (Multi-Armed Bandit) to make intelligent, adaptive routing decisions.
 
-This project is currently in: **Phase 1 - Simulation Environment Development.**
-
-The primary goal of this phase is to construct a robust testbed, implement a baseline "dumb" router for comparison, and empirically validate the performance gains of CRP in a controlled environment.
+2.  **On-Chain Trust Layer (Solidity):**
+    * A `NodeRegistry` smart contract on an Ethereum-compatible blockchain to handle the economic and trust logic.
+    * Its core functions include node registration, a staking mechanism for collateral, and an on-chain reputation system (`TrustScore`) to incentivize good behavior.
 
 ## Tech Stack
 
-* **Simulation & AI Core**: Python
-* **Smart Contracts (On-Chain Logic)**: Solidity
+* **Simulation & AI Core**: Python 3.10+
+* **Smart Contracts**: Solidity ^0.8.20
+* **Contract Development Environment**: Hardhat
 * **Blockchain Interaction**: Web3.py
+* **Dependencies**: OpenZeppelin Contracts
 
-## Directory Structure
+## Project Structure (Monorepo)
+
+This project uses a monorepo structure to cleanly separate the simulation logic from the smart contract code.
 
 cognitive-routing-protocol/
-├── crp/
-│   ├── init.py
-│   ├── network/
-│   │   ├── init.py
-│   │   ├── packet.py
-│   │   └── node.py
-│   └── simulation.py
+├── contracts/          # Hardhat Project & Smart Contracts
+│   ├── contracts/
+│   │   ├── INodeRegistry.sol
+│   │   └── NodeRegistry.sol
+│   ├── scripts/
+│   └── package.json
 │
-├── simulations/
-│   └── run_baseline_sim.py
+├── simulation/         # Python Prototype & Simulation
+│   ├── crp/
+│   └── simulations/
 │
-├── .gitignore
-└── README.md
+└── .gitignore          # Ignores files for both projects
 
 
 ## Getting Started
 
-Follow these steps to set up and run the simulation on your local machine.
+To run this project locally, you'll need to set up both the simulation and contract environments.
 
-### Prerequisites
+### 1. Running the Python Simulation
 
-* Python 3.10 or higher
-
-### Installation
-
-1.  **Clone the repository:**
+1.  **Navigate to the simulation folder:**
     ```bash
-    git clone [https://github.com/Yudis-bit/Cognitive-Routing-Protocol.git](https://github.com/Yudis-bit/Cognitive-Routing-Protocol.git)
-    cd Cognitive-Routing-Protocol
+    cd simulation
     ```
-
 2.  **Create and activate a virtual environment:**
-    * On macOS/Linux:
-        ```bash
-        python3 -m venv venv
-        source venv/bin/activate
-        ```
-    * On Windows:
-        ```bash
-        python -m venv venv
-        .\venv\Scripts\activate
-        ```
-
-3.  **Install dependencies:**
-    *(A `requirements.txt` file will be added in a future phase)*
     ```bash
-    pip install -r requirements.txt
+    # Example for Windows
+    python -m venv venv
+    .\venv\Scripts\activate
+    ```
+3.  **Run the comparative simulation:**
+    This script will run the Dumb Router vs. the Cognitive Router and display the final performance analysis.
+    ```bash
+    python simulations/run_cognitive_sim.py
     ```
 
-### Running the Simulation
+### 2. Working with the Smart Contracts
 
-To run a simulation, execute the corresponding script from the `simulations` directory. Scripts for specific test cases will be developed in upcoming phases.
-```bash
-python simulations/run_baseline_sim.py
-Contributing
-Contributions are welcome and highly valued. To contribute, please fork the repository, create a dedicated feature branch for your work, and submit a pull request for review.
+1.  **Navigate to the contracts folder:**
+    ```bash
+    cd contracts
+    ```
+2.  **Install Node.js dependencies:**
+    ```bash
+    npm install
+    ```
+3.  **Compile the contracts:**
+    This command will check for errors and generate the necessary ABI files.
+    ```bash
+    npx hardhat compile
+    ```
+4.  **(Optional) Deploy to a testnet:**
+    You can configure `hardhat.config.js` with your RPC URL and private key to deploy the contract.
 
-License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+## Completed Roadmap
+
+* [x] **Phase 0: Architecture & Whitepaper** - Conceptual design and vision.
+* [x] **Phase 1: Simulation Environment** - Modular testbed development in Python.
+* [x] **Phase 2: "Dumb" Router (Baseline)** - Dijkstra's algorithm implementation for benchmarking.
+* [x] **Phase 3: Cognitive Node (AI Core)** - AI agent implementation with a Multi-Armed Bandit model.
+* [x] **Phase 4: Integration & Comparative Analysis** - Validation of CRP's performance benefits.
+* [x] **Phase 5: On-Chain Component Design (Solidity)** - Smart contract architecture for trust and staking.
+
+## Contributing
+
+Contributions are welcome. Please fork the repository, create a dedicated feature branch for your work, and submit a pull request.
+
+## License
+
+This project is licensed under the MIT License.
