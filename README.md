@@ -11,9 +11,9 @@ This repository contains the complete architecture and functional prototype for 
 
 The Python prototype in this repository has successfully validated the core hypothesis of CRP. A comparative analysis between a "Dumb Router" (using Dijkstra's algorithm) and a "Cognitive Router" (using Reinforcement Learning) demonstrated:
 
-* **✅ Adaptive Routing:** The Cognitive Router successfully learned to **dynamically avoid a congested network link**, using it less than **0.1%** of the time, compared to the Dumb Router which was stuck in congestion nearly **40%** of the time.
-* **🚀 Performance Gains:** By avoiding these bottlenecks, the Cognitive Router achieved **~22% lower average latency** for successful packet deliveries, proving its ability to optimize for overall network health.
-* **📊 Full Analysis:** The complete comparative simulation can be run via the `simulations/run_cognitive_sim.py` script.
+* **Adaptive Routing:** The Cognitive Router successfully learned to **dynamically avoid a congested network link**, using it less than **0.1%** of the time, compared to the Dumb Router which was stuck in congestion nearly **40%** of the time.
+* **Performance Gains:** By avoiding these bottlenecks, the Cognitive Router achieved **~22% lower average latency** for successful packet deliveries, proving its ability to optimize for overall network health.
+* **Full Analysis:** The complete comparative simulation can be run via the `simulations/run_cognitive_sim.py` script.
 
 ## Full Project Architecture
 
@@ -34,25 +34,6 @@ The protocol is designed with two primary components working in tandem:
 * **Contract Development Environment**: Hardhat
 * **Blockchain Interaction**: Web3.py
 * **Dependencies**: OpenZeppelin Contracts
-
-## Project Structure (Monorepo)
-
-This project uses a monorepo structure to cleanly separate the simulation logic from the smart contract code.
-
-cognitive-routing-protocol/
-├── contracts/          # Hardhat Project & Smart Contracts
-│   ├── contracts/
-│   │   ├── INodeRegistry.sol
-│   │   └── NodeRegistry.sol
-│   ├── scripts/
-│   └── package.json
-│
-├── simulation/         # Python Prototype & Simulation
-│   ├── crp/
-│   └── simulations/
-│
-└── .gitignore          # Ignores files for both projects
-
 
 ## Getting Started
 
